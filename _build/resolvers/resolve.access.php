@@ -11,9 +11,7 @@ $success= false;
 switch ($options[xPDOTransport::PACKAGE_ACTION]) {
     case xPDOTransport::ACTION_INSTALL:
     case xPDOTransport::ACTION_UPGRADE:
-     
-$name_tab = "articles-tab-template,articles-tab-advanced-settings,articles-tab-comments";
-$name_tab = explode(',',$name_tab);
+$name_tab = array('articles-tab-template','articles-tab-advanced-settings','articles-tab-comments');    
 
  //add group users 
  $group_ed =  $object->xpdo->newObject('modUserGroup', array(
@@ -121,12 +119,12 @@ foreach($name_tab as $tab){
     }
  
 //get context
- $context_get = $object->xpdo->getCollection('modContext');
+ $contexts = $object->xpdo->getCollection('modContext');
 
 //add access context for editor
-foreach($context_get as $context_item){
+foreach($contexts as $context){
     $access_context = $object->xpdo->newObject('modAccessContext',array(
-                                                "target"=>$context_item->get('key'),
+                                                "target"=>$context->get('key'),
                                                 "principal_class"=>"modUserGroup",
                                                 "principal"=>$group_ed->get('id'),
                                                 "authority"=>$role_ed->get('authority'),
@@ -142,13 +140,14 @@ foreach($context_get as $context_item){
 
 //add User
   $user_ed =$object->xpdo->newObject('modUser', array('username'=>$options['login_ed']));
+  
   $userProfile = $object->xpdo->newObject('modUserProfile');
   $userProfile->set('fullname',$options['login_ed']);
   $userProfile->set('email',$options['email_ed']);
-  $successs = $user_ed->addOne($userProfile);
-  $newp = $user_ed->generatePassword();
-  $user_ed->set('password',$newp);
-  $user_ed->changePassword($options['password_ed'],$newp);   
+  $successs = $user_ed->addOne($userProfile);  
+  $new_password = $user_ed->generatePassword();
+  $user_ed->set('password',$new_password);
+  $user_ed->changePassword($options['password_ed'],$new_password);   
   $user_ed->save();
   $userProfile->save();
   $settings= $object->xpdo->newObject('modSystemSetting');
@@ -166,9 +165,8 @@ $settings->save();
         $success= true;
         break;
     case xPDOTransport::ACTION_UNINSTALL:
-
-        $name_tab = "articles-tab-template,articles-tab-advanced-settings,articles-tab-comments";
-        $name_tab = explode(',',$name_tab);
+        $name_tab = array('articles-tab-template','articles-tab-advanced-settings','articles-tab-comments');  
+      
         
         //delete articles tabs
         foreach($name_tab as $tab){
