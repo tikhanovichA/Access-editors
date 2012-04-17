@@ -9,7 +9,7 @@ define('PKG_NAME','access');
 define('PKG_NAME_LOWER','access');
 define('PKG_VERSION','1.0');
 define('PKG_RELEASE','rc1');
- //ass
+ //ass aaaa
 /* задаем пути для упаковщика */
 $root = dirname(dirname(__FILE__)).'/';
 $sources = array(
