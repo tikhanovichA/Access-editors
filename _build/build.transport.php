@@ -5,7 +5,7 @@ $tstart = $tstart[1] + $tstart[0];
 set_time_limit(0);
  
 /* задаем имя пакета */
-define('PKG_NAME','access');
+define('PKG_NAME','Access');
 define('PKG_NAME_LOWER','access');
 define('PKG_VERSION','1.0');
 define('PKG_RELEASE','rc1');
