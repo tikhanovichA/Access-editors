@@ -41,12 +41,9 @@ $builder = new modPackageBuilder($modx);
 $builder->createPackage(PKG_NAME_LOWER,PKG_VERSION,PKG_RELEASE);
 $builder->registerNamespace(PKG_NAME_LOWER,false,true,'{core_path}components/'.PKG_NAME_LOWER.'/');
  
-
 /* create category */
 $category= $modx->newObject('modCategory');
 $category->set('category',PKG_NAME);
-
-
 
 /* create category vehicle */
 $attr = array(
@@ -72,11 +69,8 @@ $vehicle->resolve('php',array(
     'source' => $sources['resolvers'] . 'resolve.access.php',
 ));
 
-
-
 $modx->log(modX::LOG_LEVEL_INFO,'Packaged in resolvers.'); flush();
 $builder->putVehicle($vehicle);
-
 
  $builder->setPackageAttributes(array(
     'license' => file_get_contents($sources['docs'] . 'license.txt'),
