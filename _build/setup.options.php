@@ -1,9 +1,7 @@
 <?php
 /**
  * Build the setup options form.
- *
- * @package quip
- * @subpackage build
+
  */
 /* set some default values */
 $values = array(

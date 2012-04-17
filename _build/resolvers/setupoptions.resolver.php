@@ -1,9 +1,6 @@
 <?php
 /**
- * Resolves setup-options settings by setting email options.
- *
- * @package quip
- * @subpackage build
+
  */
 $success= false;
 switch ($options[xPDOTransport::PACKAGE_ACTION]) {
