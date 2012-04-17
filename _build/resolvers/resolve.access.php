@@ -163,7 +163,6 @@ $settings->save();
   //add group member
   $member_ed = $object->xpdo->newObject('modUserGroupMember',array('user_group'=>$group_ed->get('id'),'member'=>$user_ed->get('id'),'role'=>$role_ed->get('id'),'rank'=>'0')) ;                
   $member_ed ->save();  
-
         $success= true;
         break;
     case xPDOTransport::ACTION_UNINSTALL:
