@@ -43,19 +43,19 @@ $name_tab = array('articles-tab-template','articles-tab-advanced-settings','arti
  $template_access->save(); 
  
  //add fc edit profile
- $fc_profiles = $object->xpdo->newObject('modFormCustomizationProfile',array(
+ $fc_profile = $object->xpdo->newObject('modFormCustomizationProfile',array(
                                         "name"=>"Editor",
                                         "description"=>"Editor profile",
                                         "active"=>"1",
                                         "rank"=>"0"
                                         ));
- $fc_profiles->save();
+ $fc_profile->save();
  
 
  
 //add fc setc
 $fc_setc = $object->xpdo->newObject('modFormCustomizationSet',array(
-                                    "profile"=>$fc_profiles->get('id'),
+                                    "profile"=>$fc_profile->get('id'),
                                     "action"=>"55",
                                     "active"=>"1",
                                     "template"=>$options['edit_template'],
@@ -64,7 +64,7 @@ $fc_setc = $object->xpdo->newObject('modFormCustomizationSet',array(
 $fc_setc->save();
  
 $fc_setc2 = $object->xpdo->newObject('modFormCustomizationSet',array(
-                                        "profile"=>$fc_profiles->get('id'),
+                                        "profile"=>$fc_profile->get('id'),
                                         "action"=>"30",
                                         "active"=>"1",
                                         "template"=>$options['edit_template'],
@@ -74,21 +74,21 @@ $fc_setc2->save();
  
 foreach($name_tab as $tab){
 
-    $c = $object->xpdo->newObject('modActionField', array(
+    $tab_articles = $object->xpdo->newObject('modActionField', array(
                                     "action"=>"30",
                                     "name"=>$tab,
                                     "type"=>"tab",
                                     "form"=>"modx-panel-resource",
                                     "rank"=>"4"));
-    $c -> save(); 
-    $c1 = $object->xpdo->newObject('modActionField', array(
+    $tab_articles -> save(); 
+    $tab_articles1 = $object->xpdo->newObject('modActionField', array(
                                     "action"=>"55",
                                     "name"=>$tab,
                                     "type"=>"tab",
                                     "form"=>"modx-panel-resource",
                                     "rank"=>"4"
                                     ));
-    $c1 -> save();
+    $tab_articles1 -> save();
     
     $actiondom = $object->xpdo->newObject('modActionDom',array(
                                         "set"=>$fc_setc->get('id'),
@@ -136,7 +136,8 @@ foreach($contexts as $context){
 }
 
 //add fc usergroups
-  $fc_usergroups = $object->xpdo->query('INSERT INTO  modx_fc_profiles_usergroups (usergroup,profile) VALUES ('.$group_ed->get('id').','.$fc_profiles->get('id').')');
+   $query = 'INSERT INTO  modx_fc_profiles_usergroups (usergroup,profile) VALUES ('.$group_ed->get('id').','.$fc_profiles->get('id').')';
+   $fc_usergroup = $object->xpdo->query($query);
 
 //add User
   $user_ed =$object->xpdo->newObject('modUser', array('username'=>$options['login_ed']));
@@ -170,10 +171,10 @@ $settings->save();
         
         //delete articles tabs
         foreach($name_tab as $tab){
-          $c = $object->xpdo->getObject('modActionField', array("name"=>$tab,"action"=>"30"));
-          $c ->remove();
-          $c1 = $object->xpdo->getObject('modActionField', array("name"=>$tab,"action"=>"55"));
-          $c1 ->remove();
+          $tab_articles = $object->xpdo->getObject('modActionField', array("name"=>$tab,"action"=>"30"));
+          $tab_articles ->remove();
+          $tab_articles1 = $object->xpdo->getObject('modActionField', array("name"=>$tab,"action"=>"55"));
+          $tab_articles1 ->remove();
           //delete actiondom
           $actiondom = $object->xpdo->getCollection('modActionDom',array("name"=>$tab));
           foreach ($actiondom as $actiondom2){
